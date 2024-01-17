@@ -13,6 +13,7 @@ env:
   PRESENTATION: readme.adoc
 
 jobs:
+
   html_build:
     runs-on: ubuntu-latest
     name: Create HTML
@@ -23,16 +24,19 @@ jobs:
       uses: lordsokaar/asciidoc-action@main
       with:
         program: "asciidoctor -r asciidoctor-diagram -D ${{ env.PUBLIC_DIR }} --backend=html5 -a linkcss -o ${{ env.HTML_FILE }} ${{ env.PRESENTATION }}"
-    - uses: actions/upload-artifact@v4
+    - name: HTML artifact
+      uses: actions/upload-artifact@v4
       with:
         name: html
         path: ${{ env.PUBLIC_DIR }}/**
         retention-days: 1
-    - uses: actions/upload-artifact@v4
+    - name: Images artifact
+      uses: actions/upload-artifact@v4
       with:
         name: images
         path: images
         retention-days: 1
+
   pdf_build:
     runs-on: ubuntu-latest
     name: Create PDF
@@ -43,17 +47,46 @@ jobs:
       uses: lordsokaar/asciidoc-action@main
       with:
         program: "asciidoctor -r asciidoctor-pdf -d book  -D ${{ env.PUBLIC_DIR }} -r asciidoctor-diagram -b pdf -o ${{ env.PDF_FILE }} ${{ env.PRESENTATION }}"
-    - uses: actions/upload-artifact@v4
+    - name: PDF artifact
+      uses: actions/upload-artifact@v4
       with:
         name: pdf
         path: ${{ env.PUBLIC_DIR }}/${{ env.PDF_FILE }}
         retention-days: 1
+
+  reveal_build:
+    runs-on: ubuntu-latest
+    name: Create Reveal
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install npm dependencies
+        run: npm install
+      - name: Create reveal
+        run: npx asciidoctor-revealjs -o ${{ env.REVEALJS_FILE }} -r asciidoctor-kroki ${{ env.PRESENTATION }}
+      - name: node_modules artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: node_modules
+          path: node_modules
+          retention-days: 1
+      - name: Revealjs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: revealjs
+          path: ${{ env.REVEALJS_FILE }}
+          retention-days: 1
   deploy_page:
     runs-on: ubuntu-latest
     name: Deploy page
     needs: 
       - html_build
       - pdf_build
+      - reveal_build
     steps:
       - name: Téléchargement du html
         uses: actions/download-artifact@v4
@@ -68,40 +101,17 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: pdf
+      - name: Téléchargement des node_modules
+        uses: actions/download-artifact@v4
+        with:
+          name: node_modules
+          path: ./node_modules/
+      - name: Téléchargement du revealjs
+        uses: actions/download-artifact@v4
+        with:
+          name: revealjs
       - name: Deploy docs to ghpages
         uses: peaceiris/actions-gh-pages@v3
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./
-
-    # - name: Prepare publication
-    #   run: mkdir public
-    # - name: Build HTML
-    #   id: htmlBuild
-    #   uses: tonynv/asciidoctor-action@master
-    #   with:
-    #       program: "asciidoctor -D public --backend=html5 -o index.html readme.adoc"
-    # - name: Build PDF
-    #   id: pdfbuild
-    #   uses: tonynv/asciidoctor-action@master
-    #   with:
-    #     program: "asciidoctor -D public -r asciidoctor-pdf -d book -r asciidoctor-diagram -b pdf -o pdf.pdf readme.adoc"
-    # - name: Setup Node.js
-    #   uses: actions/setup-node@v3
-    #   with:
-    #     node-version: '14'
-    # - name: Install npm dependencies
-    #   run: npm install
-    # - name: Create reveal
-    #   run: npx asciidoctor-revealjs -o reveal.html -r asciidoctor-kroki readme.adoc
-    # - name: Copy node
-    #   run: cp -Rf node_modules public/
-    # - name: Copy presentation
-    #   run: cp reveal.html public/
-    # - name: Copy images
-    #   run: cp -Rf images public/
-    # - name: Deploy docs to ghpages
-    #   uses: peaceiris/actions-gh-pages@v3
-    #   with:
-    #     deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-    #     publish_dir: ./public
