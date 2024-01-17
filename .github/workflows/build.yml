@@ -4,41 +4,55 @@ on:
   push:
     branches:
     - main
+
+env:
+  REVEALJS_FILE: reveal.html
+  HTML_FILE: index.html
+  PDF_FILE: pdf.pdf
+  PRESENTATION: readme.adoc
+
 jobs:
   adoc_build:
-    runs-on: ubuntu-latest
+    runs-on: lordashram/asciidoc-plantuml:latest
     name: Create Documentation
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: Prepare publication
-      run: mkdir public
-    - name: Build HTML
-      id: htmlBuild
-      uses: tonynv/asciidoctor-action@master
+    - name: generate HTML
+      run: asciidoctor -r asciidoctor-diagram --backend=html5 -a linkcss -o ${{ env.HTML_FILE }} ${{ env.PRESENTATION }}
+    - uses: actions/upload-artifact@v4
       with:
-          program: "asciidoctor -D public --backend=html5 -o index.html readme.adoc"
-    - name: Build PDF
-      id: pdfbuild
-      uses: tonynv/asciidoctor-action@master
-      with:
-        program: "asciidoctor -D public -r asciidoctor-pdf -d book -r asciidoctor-diagram -b pdf -o pdf.pdf readme.adoc"
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
-    - name: Install npm dependencies
-      run: npm install
-    - name: Create reveal
-      run: npx asciidoctor-revealjs -o reveal.html -r asciidoctor-kroki readme.adoc
-    - name: Copy node
-      run: cp -Rf node_modules public/
-    - name: Copy presentation
-      run: cp reveal.html public/
-    - name: Copy images
-      run: cp -Rf images public/
-    - name: Deploy docs to ghpages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        publish_dir: ./public
+        name: html
+        path: index.html
+
+    # - name: Prepare publication
+    #   run: mkdir public
+    # - name: Build HTML
+    #   id: htmlBuild
+    #   uses: tonynv/asciidoctor-action@master
+    #   with:
+    #       program: "asciidoctor -D public --backend=html5 -o index.html readme.adoc"
+    # - name: Build PDF
+    #   id: pdfbuild
+    #   uses: tonynv/asciidoctor-action@master
+    #   with:
+    #     program: "asciidoctor -D public -r asciidoctor-pdf -d book -r asciidoctor-diagram -b pdf -o pdf.pdf readme.adoc"
+    # - name: Setup Node.js
+    #   uses: actions/setup-node@v3
+    #   with:
+    #     node-version: '14'
+    # - name: Install npm dependencies
+    #   run: npm install
+    # - name: Create reveal
+    #   run: npx asciidoctor-revealjs -o reveal.html -r asciidoctor-kroki readme.adoc
+    # - name: Copy node
+    #   run: cp -Rf node_modules public/
+    # - name: Copy presentation
+    #   run: cp reveal.html public/
+    # - name: Copy images
+    #   run: cp -Rf images public/
+    # - name: Deploy docs to ghpages
+    #   uses: peaceiris/actions-gh-pages@v3
+    #   with:
+    #     deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+    #     publish_dir: ./public
