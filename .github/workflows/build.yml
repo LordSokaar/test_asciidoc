@@ -7,7 +7,7 @@ on:
 jobs:
   adoc_build:
     runs-on: ubuntu-latest
-    name: asciidoctor -D docs --backend=html5 -o index.html readme.adoc 
+    name: Create HTML
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -22,5 +22,4 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        publish_branch: gh-pages
-        publish_dir: ./
+        publish_dir: ./docs
