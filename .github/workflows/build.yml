@@ -22,7 +22,7 @@ jobs:
       run: asciidoctor -r asciidoctor-diagram --backend=html5 -a linkcss -o ${{ env.HTML_FILE }} ${{ env.PRESENTATION }}
     - uses: lordsokaar/asciidoc-action@v1
       with:
-        program: asciidoctor -r asciidoctor-diagram -D public --backend=html5 -a linkcss -o ${{ env.HTML_FILE }} ${{ env.PRESENTATION }}
+        program: "asciidoctor -r asciidoctor-diagram -D public --backend=html5 -a linkcss -o ${{ env.HTML_FILE }} ${{ env.PRESENTATION }}"
 
     # - name: Prepare publication
     #   run: mkdir public
