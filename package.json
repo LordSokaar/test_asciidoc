@@ -13,7 +13,6 @@
     "@asciidoctor/reveal.js": "^5.0.0-rc.1",
     "asciidoctor": "^2.2.6",
     "asciidoctor-kroki": "^0.17.0",
-    "asciidoctor-pdf": "^1.0.0-alpha.16",
     "reveal.js-plugins": "^4.1.5",
     "reveal.js-titlebar": "^1.0.1"
   }
