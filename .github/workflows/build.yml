@@ -28,6 +28,11 @@ jobs:
         name: html
         path: ${{ env.PUBLIC_DIR }}/**
         retention-days: 1
+    - uses: actions/upload-artifact@v4
+      with:
+        name: images
+        path: images
+        retention-days: 1
   pdf_build:
     runs-on: ubuntu-latest
     name: Create PDF
@@ -43,6 +48,30 @@ jobs:
         name: pdf
         path: ${{ env.PUBLIC_DIR }}/${{ env.PDF_FILE }}
         retention-days: 1
+  deploy_page:
+    runs-on: ubuntu-latest
+    name: Deploy page
+    needs: 
+      - html_build
+      - pdf_build
+    steps:
+      - name: Téléchargement du html
+        uses: actions/download-artifact@v2
+        with:
+          name: html
+      - name: Téléchargement des images
+        uses: actions/download-artifact@v2
+        with:
+          name: images
+      - name: Téléchargement du html
+        uses: actions/download-artifact@v2
+        with:
+          name: pdf
+      - name: Deploy docs to ghpages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./
 
     # - name: Prepare publication
     #   run: mkdir public
