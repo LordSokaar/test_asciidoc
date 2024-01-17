@@ -23,6 +23,18 @@ jobs:
       uses: tonynv/asciidoctor-action@master
       with:
         program: "asciidoctor -D public -r asciidoctor-pdf -d book -r asciidoctor-diagram -b pdf -o pdf.pdf readme.adoc"
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+    - name: Install npm dependencies
+      run: npm install
+    - name: Create reveal
+      run: npx asciidoctor-revealjs -o reveal.html -r asciidoctor-kroki readme.adoc
+    - name: Copy node
+      run: cp -Rf node_modules public/
+    - name: Copy presentation
+      run: cp reveal.html public/
     - name: Copy images
       run: cp -Rf images public/
     - name: Deploy docs to ghpages

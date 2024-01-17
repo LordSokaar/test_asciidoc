@@ -19,7 +19,7 @@ endif::backend-html5[]
 
 == Introduction
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque neque tellus, egestas at justo id, rutrum scelerisque leo. In gravida gravida lectus, nec cursus neque tempor in. Fusce pulvinar, libero at sodales egestas, arcu turpis gravida leo, et convallis dui justo in ipsum. Sed dictum, dolor sed ultrices iaculis, nunc odio congue ex, sit amet faucibus felis lorem ut neque. Proin ultrices libero at felis molestie, sed ultricies tortor eleifend. Aliquam ultrices scelerisque ex non finibus. Praesent eu massa imperdiet nulla accumsan suscipit vel sit amet urna. Nunc dapibus nibh ut enim maximus, sit amet viverra orci viverra. Sed magna ipsum, tempor vel tellus bibendum, posuere ullamcorper nisi.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque neque tellus, egestas at justo id, rutrum scelerisque leo. In gravida gravida lectus, nec cursus neque tempor in. Fusce pulvinar, libero at sodales egestas, arcu turpis gravida leo, et convallis dui justo in ipsum. Sed dictum, dolor sed ultrices iaculis, nunc odio congue ex, sit amet faucibus felis lorem ut neque. 
 
 Disponible aussi en
 ifndef::backend-pdf[ link:pdf.pdf[icon:file-pdf-o[1x,role=red] PDF,window=_blank]]
@@ -29,10 +29,10 @@ ifndef::backend-revealjs[ link:reveal.html[icon:video-camera[] Slides,window=_bl
 
 == Texte
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque neque tellus, egestas at justo id, rutrum scelerisque leo. In gravida gravida lectus, nec cursus neque tempor in. Fusce pulvinar, libero at sodales egestas, arcu turpis gravida leo, et convallis dui justo in ipsum. Sed dictum, dolor sed ultrices iaculis, nunc odio congue ex, sit amet faucibus felis lorem ut neque. Proin ultrices libero at felis molestie, sed ultricies tortor eleifend. Aliquam ultrices scelerisque ex non finibus. Praesent eu massa imperdiet nulla accumsan suscipit vel sit amet urna. Nunc dapibus nibh ut enim maximus, sit amet viverra orci viverra. Sed magna ipsum, tempor vel tellus bibendum, posuere ullamcorper nisi.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque neque tellus, egestas at justo id, rutrum scelerisque leo. In gravida gravida lectus, nec cursus neque tempor in. Fusce pulvinar, libero at sodales egestas.
 
 === Texte 2
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque neque tellus, egestas at justo id, rutrum scelerisque leo. In gravida gravida lectus, nec cursus neque tempor in. Fusce pulvinar, libero at sodales egestas, arcu turpis gravida leo, et convallis dui justo in ipsum. 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque neque tellus, egestas at justo id, rutrum scelerisque leo. In gravida gravida lectus, nec cursus neque tempor in. Fusce pulvinar, libero at sodales egestas, arcu turpis gravida leo.
 
-image:images/logo.png[]
+image::images/logo.png[]
