@@ -11,6 +11,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+    - name: Prepare publication
+      run: mkdir public
     - name: Get build container
       id: adocbuild
       uses: tonynv/asciidoctor-action@master
