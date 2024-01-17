@@ -7,17 +7,22 @@ on:
 jobs:
   adoc_build:
     runs-on: ubuntu-latest
-    name: Create HTML
+    name: Create Documentation
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Prepare publication
       run: mkdir public
-    - name: Get build container
-      id: adocbuild
+    - name: Build HTML
+      id: htmlBuild
       uses: tonynv/asciidoctor-action@master
       with:
           program: "asciidoctor -D public --backend=html5 -o index.html readme.adoc"
+    - name: Build PDF
+      id: pdfbuild
+      uses: tonynv/asciidoctor-action@master
+      with:
+        program: "asciidoctor -D public -r asciidoctor-pdf -d book -r asciidoctor-diagram -b pdf -o pdf.pdf readme.adoc"
     - name: Copy images
       run: cp -Rf images public/
     - name: Deploy docs to ghpages
