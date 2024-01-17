@@ -19,7 +19,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: generate HTML
-      uses: lordsokaar/asciidoc-action@v1
+      uses: lordsokaar/asciidoc-action@main
       with:
         program: "asciidoctor -r asciidoctor-diagram -D public --backend=html5 -a linkcss -o ${{ env.HTML_FILE }} ${{ env.PRESENTATION }}"
 
