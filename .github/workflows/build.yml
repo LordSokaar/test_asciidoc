@@ -63,6 +63,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: images
+          path: ./images/
       - name: Téléchargement du html
         uses: actions/download-artifact@v4
         with:
