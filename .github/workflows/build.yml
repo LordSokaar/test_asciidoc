@@ -13,9 +13,9 @@ env:
   PRESENTATION: readme.adoc
 
 jobs:
-  adoc_build:
+  html_build:
     runs-on: ubuntu-latest
-    name: Create Documentation
+    name: Create HTML
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -27,6 +27,22 @@ jobs:
       with:
         name: html
         path: ${{ env.PUBLIC_DIR }}/**
+        retention-days: 1
+  pdf_build:
+    runs-on: ubuntu-latest
+    name: Create PDF
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: generate PDF
+      uses: lordsokaar/asciidoc-action@main
+      with:
+        program: "asciidoctor -r asciidoctor-pdf -d book  -D ${{ env.PUBLIC_DIR }} -r asciidoctor-diagram -b pdf -o ${{ env.PDF_FILE }} ${{ env.PRESENTATION }}"
+    - uses: actions/upload-artifact@v4
+      with:
+        name: pdf
+        path: ${{ env.PUBLIC_DIR }}/${{ env.PDF_FILE }}
+        retention-days: 1
 
     # - name: Prepare publication
     #   run: mkdir public
