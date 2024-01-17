@@ -1,0 +1,22 @@
+/*
+ * Additional style for the titlebar
+ */
+
+.reveal > .title-bar {
+  /* Adapt the following 2 styles if you need more place */
+  width: 20%;
+  left: 40%;
+  position: fixed;
+  bottom: 8px;
+  z-index: 40;
+  font-family: Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 1;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}

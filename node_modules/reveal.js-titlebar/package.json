@@ -1,0 +1,25 @@
+{
+  "name": "reveal.js-titlebar",
+  "version": "1.0.1",
+  "description": "Titlebar plugin for reveal.js",
+  "main": "titlebar.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sedrubal/reveal.js-titlebar.git"
+  },
+  "keywords": [
+    "reveal.js",
+    "title",
+    "titlebar",
+    "presentation"
+  ],
+  "author": "sedrubal",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/sedrubal/reveal.js-titlebar/issues"
+  },
+  "homepage": "https://github.com/sedrubal/reveal.js-titlebar#readme"
+}
