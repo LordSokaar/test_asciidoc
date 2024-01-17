@@ -6,6 +6,7 @@ on:
     - main
 
 env:
+  PUBLIC_DIR: public
   REVEALJS_FILE: reveal.html
   HTML_FILE: index.html
   PDF_FILE: pdf.pdf
@@ -21,7 +22,11 @@ jobs:
     - name: generate HTML
       uses: lordsokaar/asciidoc-action@main
       with:
-        program: "asciidoctor -r asciidoctor-diagram -D public --backend=html5 -a linkcss -o ${{ env.HTML_FILE }} ${{ env.PRESENTATION }}"
+        program: "asciidoctor -r asciidoctor-diagram -D ${{ env.PUBLIC_DIR }} --backend=html5 -a linkcss -o ${{ env.HTML_FILE }} ${{ env.PRESENTATION }}"
+    - uses: actions/upload-artifact@v4
+      with:
+        name: html
+        path: ${{ env.PUBLIC_DIR }}/**
 
     # - name: Prepare publication
     #   run: mkdir public
