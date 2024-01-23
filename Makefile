@@ -2,6 +2,7 @@ DOCUMENT=readme.adoc
 HTML_FILE=index.html
 REVEAL_FILE=reveal.html
 PDF_FILE=pdf.pdf
+WORD_FILE=document.docx
 OUTPUT_DIR=output
 CURRENT_DIR=$(shell pwd)
 
@@ -39,6 +40,16 @@ reveal: prepare prepare_reveal
 		npx asciidoctor-revealjs -S unsafe -D ${OUTPUT_DIR} -o ${REVEAL_FILE} -r asciidoctor-kroki ${DOCUMENT}
 	# @cp -R node_modules ${OUTPUT_DIR}
 
+word: prepare
+	@echo "Génération du word..."
+	# pandoc -f docbook -t docx -o readme.docx <(asciidoctor -b docbook readme.adoc -o -)
+	@touch /tmp/run-adoc.sh
+	@echo "#!/bin/bash" > /tmp/run-adoc.sh
+	@echo "pandoc -f docbook -t docx -o /formation/${OUTPUT_DIR}/${WORD_FILE} <(asciidoctor -r asciidoctor-diagram -b docbook /formation/${DOCUMENT} -o -)" >> /tmp/run-adoc.sh
+	@chmod +x /tmp/run-adoc.sh
+	docker run --rm -v ${CURRENT_DIR}:/formation -v /tmp/run-adoc.sh:/tmp/run-adoc.sh --name docascode2 \
+			-w /formation lordashram/asciidoc-plantuml:latest \
+			/tmp/run-adoc.sh
 prepare:
 	@mkdir -p ${OUTPUT_DIR}
 	@mkdir -p ${OUTPUT_DIR}/images
