@@ -10,7 +10,7 @@ ifdef::backend-pdf[]
 endif::[]
 
 [%notitle]
-ifndef::backend-html5[== Table des matières]
+ifndef::backend-docbook5,backend-html5[== Table des matières]
 
 ifndef::backend-html5[]
 :toc: macro

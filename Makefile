@@ -45,7 +45,7 @@ word: prepare
 	# pandoc -f docbook -t docx -o readme.docx <(asciidoctor -b docbook readme.adoc -o -)
 	@touch /tmp/run-adoc.sh
 	@echo "#!/bin/bash" > /tmp/run-adoc.sh
-	@echo "pandoc -f docbook -t docx -o /formation/${OUTPUT_DIR}/${WORD_FILE} <(asciidoctor -r asciidoctor-diagram -b docbook /formation/${DOCUMENT} -o -)" >> /tmp/run-adoc.sh
+	@echo "pandoc -f docbook -t docx --lua-filter=filter.lua --toc=true --reference-doc=/formation/template.docx -o /formation/${OUTPUT_DIR}/${WORD_FILE} <(asciidoctor -r asciidoctor-diagram -b docbook /formation/${DOCUMENT} -o -)" >> /tmp/run-adoc.sh
 	@chmod +x /tmp/run-adoc.sh
 	docker run --rm -v ${CURRENT_DIR}:/formation -v /tmp/run-adoc.sh:/tmp/run-adoc.sh --name docascode2 \
 			-w /formation lordashram/asciidoc-plantuml:latest \
